@@ -3,14 +3,6 @@ package Menu;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 
 import JObjects.Botao;
 import Main.Main;
@@ -18,7 +10,7 @@ import Main.Main;
 public class Menu {
 	private Login login = new Login();
 	public Buscar busca = new Buscar();
-	public Editar editar ;
+	public Editar editar;
 	private Cadastro cad = new Cadastro();
 	private Color beje;
 	String state = "Login";
@@ -99,7 +91,7 @@ public class Menu {
 		beje = new Color(211, 228, 255);
 		g.setColor(beje);
 		g.fillRect(0, 0, Main.WIDTH, Main.HEIGHT);
-		Graphics2D g2 = (Graphics2D) g;
+//		Graphics2D g2 = (Graphics2D) g;
 		if (state.equals("Login")) {
 			login.render(g);
 		} else {

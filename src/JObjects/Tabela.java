@@ -12,6 +12,7 @@ import Main.Main;
 public class Tabela {
 	private int x, y, w, h;
 	private List<String> text=new ArrayList<String>();
+	private List<Integer> indexes=new ArrayList<Integer>();
 	private List<Boolean> clicou=new ArrayList<Boolean>();
 	private boolean mouseOver, clicouDentro;
 	private int mx, my;
@@ -27,10 +28,11 @@ public class Tabela {
 		return text.get(id);
 	}
 	public Integer getSelecionado() {
-		return selecionado;
+		return indexes.get(selecionado);
 	}
 	public void setTexto(String text, int id) {
 		this.text.add(text);
+		this.indexes.add(id);
 		this.clicou.add(false);
 	}
 	public Jogo getJogo() {

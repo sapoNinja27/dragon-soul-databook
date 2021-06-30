@@ -1,42 +1,37 @@
 package ConnectionFactory;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-/**
- * @author me
- * 
- * Classe Responsavel por conectar ao banco de dados
- */
+
 public class ConnectionFactory {
-
-    //Metodo para obter conexão pelo driver do SqlServer
-    public Connection getConnection() throws ClassNotFoundException, SQLException {
-        //Projeto > Propriedades > Bibliotecas > Adicionar JAR > sqljdbc42.jar
-        //Registra JDBC driver
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        //Abrindo a conexão
- //       Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=db_CrudJava;integratedSecurity=true;");
-        Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;dataBaseName=db_CrudJava;user=sa;password=12345;");
-        return con;
-        }
-
-    public static boolean testarConexao()
-    {
-        try {
-        	ConnectionFactory SqlCon = new ConnectionFactory();
-            Connection con = SqlCon.getConnection();
-            if(con != null){
-                System.out.println("Sucesso : Conectou no banco");
-                return true;
-            }else
-                return false;
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
-        } finally
-        {
-            System.out.println("Teste Finalizado");
+    public static Connection getConnection(){
+        String schema = "fichas";
+        try{
+            DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+            return DriverManager.getConnection("jdbc:mysql://localhost/"+schema+"?useTimezone=true&serverTimezone=UTC","root","");
+        } catch (SQLException e){
+            throw new RuntimeException(e);
         }
     }
 }
+	/*
+	 * Criação das tabelas no db
+	 * DROP SCHEMA `fichas`; CREATE SCHEMA IF NOT EXISTS `fichas`; USE `fichas` ; CREATE
+	 * TABLE IF NOT EXISTS `fichas`.`jogo` ( `id` INT NOT NULL AUTO_INCREMENT,
+	 * `nome` VARCHAR(45) NULL DEFAULT NULL, `genero` VARCHAR(45) NULL DEFAULT NULL,
+	 * PRIMARY KEY (`id`)); CREATE TABLE IF NOT EXISTS `fichas`.`personagem` ( `id`
+	 * INT NOT NULL AUTO_INCREMENT, `nome` VARCHAR(45) NULL DEFAULT NULL, `nivel`
+	 * INT NULL DEFAULT NULL, `descricao` VARCHAR(45) NULL DEFAULT NULL, PRIMARY KEY
+	 * (`id`)); CREATE TABLE IF NOT EXISTS `fichas`.`usuario` ( `id` INT NOT NULL
+	 * AUTO_INCREMENT, `login` VARCHAR(45) NULL DEFAULT NULL, `senha` VARCHAR(45)
+	 * NULL DEFAULT NULL, PRIMARY KEY (`id`)); INSERT INTO
+	 * fichas.usuario(login,senha) VALUES ('jp','1234'); CREATE TABLE IF NOT EXISTS
+	 * `fichas`.`ficha` ( `id` INT NOT NULL AUTO_INCREMENT, `personagem_id` INT NOT
+	 * NULL, `jogo_id` INT NOT NULL, `usuario_id` INT NOT NULL, PRIMARY KEY (`id`),
+	 * INDEX `jogo_idx` (`jogo_id` ASC) VISIBLE, INDEX `personagem_idx`
+	 * (`personagem_id` ASC) VISIBLE, INDEX `usuario_idx` (`usuario_id` ASC)
+	 * VISIBLE, CONSTRAINT `jogo` FOREIGN KEY (`jogo_id`) REFERENCES `fichas`.`jogo`
+	 * (`id`), CONSTRAINT `personagem` FOREIGN KEY (`personagem_id`) REFERENCES
+	 * `fichas`.`personagem` (`id`), CONSTRAINT `usuario` FOREIGN KEY (`usuario_id`)
+	 * REFERENCES `fichas`.`usuario` (`id`))
+	 */

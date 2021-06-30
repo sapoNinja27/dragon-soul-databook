@@ -11,14 +11,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import javax.swing.JOptionPane;
-
+import Entidades.Usuario;
 import JObjects.Botao;
 import JObjects.CampoDeTexto;
 import JObjects.CheckBox;
 import Main.Main;
+import Services.UsuarioService;
 
 public class Login {
+	private UsuarioService usuarioService=new UsuarioService();
 	Botao logar = new Botao(280, 230, 60, 20, "Entrar", Color.white, 2, 15);
 	Botao sair = new Botao(280 - 60 + 150, 230, 60, 20, "Sair", Color.white, 2, 15);
 	CheckBox box = new CheckBox(280, 210);
@@ -46,13 +47,9 @@ public class Login {
 		for (int i = 0; i < trans.length; i++) {
 			senha = senha + trans[i];
 		}
-		if((login.contentEquals("Administrador")&& senha.equals("Administrador"))||
-				(login.contentEquals("Adm")&& senha.equals("Adm123"))||
-				(login.contentEquals("JP")&& senha.equals("senhafacil"))||
-				(login.contentEquals("Administrator")&& senha.equals("Que3B1eng4ElT0r0"))||
-				//pq essa senha é que benga heitor? e a de baixo é promiscuo?
-				(login.contentEquals("Root")&& senha.equals("pr0m1uscu0"))
-			){
+		Usuario user= usuarioService.buscar(login);
+		if(senha.equals(user.getSenha())){
+			Main.usuario=user;
 				return true;
 			}
 		return false;

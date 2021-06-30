@@ -43,6 +43,9 @@ public class CampoDeTexto {
 		this.estatico=est;
 	}
 	public String getTexto() {
+		if(newText=="") {
+			return text;
+		}
 		String newText1 = "";
 		if (senha) {
 			char[] trans = newText.toCharArray();

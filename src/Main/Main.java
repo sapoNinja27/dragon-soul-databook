@@ -26,6 +26,7 @@ import javax.swing.JFrame;
 
 import Entidades.Ficha;
 import Entidades.Jogo;
+import Entidades.Usuario;
 import JObjects.Botao;
 import JObjects.CampoDeTexto;
 import Menu.Menu;
@@ -48,15 +49,8 @@ public class Main extends Canvas implements Runnable, MouseMotionListener, Mouse
 	public static String gameState = "MENU";
 	public static Menu menu;
 	private boolean caps;
-
+	public static Usuario usuario;
 	public Main() {
-		jogos.add(new Jogo("jogo1","genero1"));
-		jogos.add(new Jogo("jogo2","genero2"));
-		jogos.add(new Jogo("jogo3","genero3"));
-		jogos.add(new Jogo("jogo4","genero4"));
-		jogos.add(new Jogo("jogo5","genero5"));
-		jogos.add(new Jogo("jogo6","genero6"));
-		jogos.add(new Jogo("jogo7","genero7"));
 		addKeyListener(this);
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -202,7 +196,7 @@ public class Main extends Canvas implements Runnable, MouseMotionListener, Mouse
 				delta--;
 			}
 			if (System.currentTimeMillis() - timer >= 1000) {
-				System.out.println("FPS:" + frames);
+//				System.out.println("FPS:" + frames);
 				frames = 0;
 				timer += 1000;
 			}

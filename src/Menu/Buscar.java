@@ -3,20 +3,29 @@ package Menu;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.List;
 
+import Entidades.Ficha;
+import Entidades.Personagem;
 import JObjects.Botao;
 import JObjects.Tabela;
 import Main.Main;
+import Services.FichaService;
+import Services.PersonagemService;
 
 public class Buscar {
 	Botao edit = new Botao(550, 210, 97, 20, "Editar", Color.white, 2, 15);
 	Botao excluir = new Botao(550, 240, 97, 20, "Excluir", Color.white, 2, 15);
 	Botao voltar = new Botao(550, 270, 97, 20, "Voltar", Color.white, 2, 15);
 	Tabela tab=new Tabela(50,100,150,15);
+	private PersonagemService personagemService= new PersonagemService();
+	FichaService fichaService=new FichaService();
 	public int id;
 	public Buscar() {
-		for (int i = 0; i < Main.fichas.size(); i++) {
-			tab.setTexto(Main.fichas.get(i).getPersonagem().getNome(), i);
+		List<Ficha> fichas= fichaService.listar();
+		for (int i = 0; i < fichas.size(); i++) {
+			Personagem personagem= personagemService.buscar(fichas.get(i).getPersonagem().getId());
+			tab.setTexto(personagem.getNome(),fichas.get(i).getId());
 		}
 		Main.botoes.add(excluir);
 		Main.botoes.add(edit);
@@ -39,6 +48,7 @@ public class Buscar {
 			Main.botoes.remove(edit);
 		}
 		if (excluir.clicou()) {
+			fichaService.deletar(tab.getSelecionado());
 			Main.menu.resetar();
 			Main.botoes.remove(excluir);
 		}
